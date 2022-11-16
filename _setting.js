@@ -1,0 +1,11 @@
+// ひとまずそれぞれ記入して頭の_を消すこと
+
+const TOKEN = ""
+const CLIENT_ID = ""
+const CHANNEL_ID = ""
+const PLAYLIST_ID = ""
+const YOUTUBE_API_KEY = ""
+const DISCORD_CHANNEL_ID_MOVIE = ""
+const DISCORD_CHANNEL_ID_LIVE = ""
+
+export { TOKEN, CLIENT_ID, CHANNEL_ID, PLAYLIST_ID, YOUTUBE_API_KEY, DISCORD_CHANNEL_ID_MOVIE, DISCORD_CHANNEL_ID_LIVE }
