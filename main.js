@@ -1,13 +1,10 @@
-import { format } from 'date-fns'
 import fs from 'fs-extra'
-import { PLAYLIST_ID, YOUTUBE_API_KEY, DISCORD_CHANNEL_ID_MOVIE, DISCORD_CHANNEL_ID_LIVE } from './setting.js'
+import { YOUTUBE_PLAYLIST_ID, YOUTUBE_API_KEY, DISCORD_CHANNEL_ID_MOVIE, DISCORD_CHANNEL_ID_LIVE } from './setting.js'
 
 const main = async function (client) {
   try {
-    const NOW = format(new Date(), 'MM/dd HH:mm ss')
-    client.channels.cache.get(DISCORD_CHANNEL_ID_MOVIE).send(`. \n\nrunning: ${NOW}`);
     // YouTube Data API
-    const YouTubeURL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
+    const YouTubeURL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
 
     // 最新動画取得
     const youtubeDataResFetch = await fetch(
@@ -18,9 +15,8 @@ const main = async function (client) {
       },
     }
     )
-    const youtubeDataRes = await youtubeDataResFetch.json()
-    // console.log(youtubeDataRes)
 
+    const youtubeDataRes = await youtubeDataResFetch.json()
     const videoID = youtubeDataRes.items[0].snippet.resourceId.videoId
     const title = youtubeDataRes.items[0].snippet.title
 
@@ -33,7 +29,8 @@ const main = async function (client) {
           if (videoID === item) return
           if (isLiveStream === 'upcoming') return
         }
-        console.log("run")
+        console.log("run: ", title)
+
         // ファイル更新
         const ary = []
         for (let i = 0; i < 5; i++) {
@@ -41,6 +38,7 @@ const main = async function (client) {
         }
         fs.writeFileSync("movieid", ary.join(','))
         // チャット送信
+
         if (isLiveStream === 'live') {
           client.channels.cache.get(DISCORD_CHANNEL_ID_LIVE).send(`🔔 配信開始\n${title}\n\nhttps://youtu.be/${videoID}`)
         } else {

@@ -1,14 +1,14 @@
 import fs from 'fs-extra'
 import { Client, GatewayIntentBits } from 'discord.js'
 import cron from "node-cron"
-import { TOKEN, PLAYLIST_ID, YOUTUBE_API_KEY } from "./setting.js"
+import { DISCORD_TOKEN, YOUTUBE_PLAYLIST_ID, YOUTUBE_API_KEY } from "./setting.js"
 import { main } from "./main.js"
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.on('ready', client => {
   console.log(`Logged in as ${client.user.tag}!`);
-  const firstLoadYouTubeURL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
+  const firstLoadYouTubeURL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
   fetch(firstLoadYouTubeURL, { method: "GET", headers: { 'Content-Type': 'application/json' } }).then((v) => {
     v.json().then((res) => {
       let ary = []
@@ -22,4 +22,4 @@ client.on('ready', client => {
     main(client)
   });
 });
-client.login(TOKEN);
+client.login(DISCORD_TOKEN);
