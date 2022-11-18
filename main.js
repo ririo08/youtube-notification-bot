@@ -40,9 +40,9 @@ const main = async function (client) {
         // チャット送信
 
         if (isLiveStream === 'live') {
-          client.channels.cache.get(DISCORD_CHANNEL_ID_LIVE).send(`🔔 配信開始\n${title}\n\nhttps://youtu.be/${videoID}`)
+          client.channels.cache.get(DISCORD_CHANNEL_ID_LIVE).send(`🔔 配信開始\n\n${title}\nhttps://youtu.be/${videoID}`)
         } else {
-          client.channels.cache.get(DISCORD_CHANNEL_ID_MOVIE).send(`🎬 動画投稿\n${title}\n\nhttps://youtu.be/${videoID}`)
+          client.channels.cache.get(DISCORD_CHANNEL_ID_MOVIE).send(`🎬 動画投稿\n\n${title}\nhttps://youtu.be/${videoID}`)
         }
       })
     })
