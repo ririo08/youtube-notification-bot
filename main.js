@@ -47,7 +47,7 @@ const main = async function (client) {
       })
     })
   } catch (e) {
-    console.error(e)
+    console.error("MainLogic: ", format(new Date(), 'yyyy-MM-dd HH:mm:ss'), e)
   }
 }
 
