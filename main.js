@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+import { format } from 'date-fns'
 import { YOUTUBE_PLAYLIST_ID, YOUTUBE_API_KEY, DISCORD_CHANNEL_ID_MOVIE, DISCORD_CHANNEL_ID_LIVE } from './setting.js'
 
 const main = async function (client) {
