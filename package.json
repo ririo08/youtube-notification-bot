@@ -2,18 +2,20 @@
   "name": "discord-youtube-notification-bot",
   "version": "1.0.0",
   "scripts": {
-    "start": "node bot"
+    "start": "ts-node bot"
   },
   "main": "main.js",
   "repository": "https://github.com/ririo08/discord-youtube-notification-bot",
   "author": "ririo08",
   "license": "MIT",
   "dependencies": {
-    "date-fns": "^2.29.3",
-    "discord.js": "^14.6.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.5.6",
+    "@types/node-cron": "^3.0.8",
+    "date-fns": "^2.30.0",
     "fs-extra": "^10.1.0",
     "node-cron": "^3.0.2",
-    "rss-parser": "^3.12.0"
-  },
-  "type": "module"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
 }
