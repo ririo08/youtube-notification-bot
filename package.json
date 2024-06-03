@@ -2,7 +2,7 @@
   "name": "discord-youtube-notification-bot",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node bot"
+    "start": "bun bot.ts"
   },
   "main": "main.js",
   "repository": "https://github.com/ririo08/discord-youtube-notification-bot",
