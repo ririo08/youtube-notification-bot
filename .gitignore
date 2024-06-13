@@ -2,3 +2,4 @@ node_modules/
 setting.*
 movie-id
 .eslintcache
+tmp-image.jpg
