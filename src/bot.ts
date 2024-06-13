@@ -1,6 +1,7 @@
 import { CONFIG } from '../setting'
 import { postPhotoToBluesky } from './bluesky'
 import { sendDiscordWebhook } from './discord'
+import { tweet } from './twitter'
 import { deleteFile, downloadImage, jpgToBlob } from './utils/image'
 import { getNewVideo } from './youtube'
 
@@ -28,6 +29,13 @@ export async function runBot() {
     await postPhotoToBluesky({ ...youTubeResponse, blob })
   }
 
+  // Twitter投稿
+  if (CONFIG.twitter) {
+    await tweet(youTubeResponse)
+  }
+
   // 画像削除
   deleteFile(imagePath)
 }
+
+runBot()

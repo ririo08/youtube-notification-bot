@@ -2,6 +2,7 @@
 const CONFIG = {
   discord: true,
   bluesky: true,
+  twitter: true,
 }
 
 // ------------------------------------------------------------
@@ -31,6 +32,11 @@ const BLUESKY_USER_ID = ''
 /** BlueskyのApp Password */
 const BLUESKY_APP_PASSWORD = ''
 
+const TWITTER_API_KEY = ''
+const TWITTER_API_KEY_SECRET = ''
+const TWITTER_ACCESS_TOKEN = ''
+const TWITTER_ACCESS_TOKEN_SECRET = ''
+
 // ------------------------------------------------------------
 
 // 以下は書き換えないでください
@@ -43,4 +49,8 @@ export {
   BLUESKY_BASE_URL,
   BLUESKY_USER_ID,
   BLUESKY_APP_PASSWORD,
+  TWITTER_API_KEY_SECRET,
+  TWITTER_API_KEY,
+  TWITTER_ACCESS_TOKEN,
+  TWITTER_ACCESS_TOKEN_SECRET,
 }
