@@ -1,19 +1,30 @@
 {
   "name": "discord-youtube-notification-bot",
   "version": "1.0.0",
-  "scripts": {
-    "start": "bun bot.ts"
-  },
-  "main": "main.js",
-  "repository": "https://github.com/ririo08/discord-youtube-notification-bot",
   "author": "ririo08",
   "license": "MIT",
+  "repository": "https://github.com/ririo08/discord-youtube-notification-bot",
+  "main": "main.ts",
+  "scripts": {
+    "start": "bun bot.ts",
+    "lint": "eslint . --cache",
+    "lint:fix": "bun lint --fix"
+  },
+  "peerDependencies": {
+    "typescript": "^5.4.5"
+  },
   "dependencies": {
-    "@types/fs-extra": "^11.0.1",
-    "@types/node": "^20.5.6",
-    "@types/node-cron": "^3.0.8",
+    "console-log-colors": "^0.5.0",
     "date-fns": "^2.30.0",
     "fs-extra": "^10.1.0",
     "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.21.1",
+    "@types/bun": "latest",
+    "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.5.6",
+    "@types/node-cron": "^3.0.8",
+    "eslint": "^9.4.0"
   }
 }
