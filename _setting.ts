@@ -3,6 +3,7 @@ const CONFIG = {
   discord: true,
   bluesky: true,
   twitter: true,
+  mastodon: true,
 }
 
 // ------------------------------------------------------------
@@ -37,6 +38,8 @@ const TWITTER_API_KEY_SECRET = ''
 const TWITTER_ACCESS_TOKEN = ''
 const TWITTER_ACCESS_TOKEN_SECRET = ''
 
+const MASTODON_ACCESS_TOKEN = ''
+const MASTODON_INSTANCE_URL = 'https://mstdn.jp'
 // ------------------------------------------------------------
 
 // 以下は書き換えないでください
@@ -53,4 +56,6 @@ export {
   TWITTER_API_KEY,
   TWITTER_ACCESS_TOKEN,
   TWITTER_ACCESS_TOKEN_SECRET,
+  MASTODON_ACCESS_TOKEN,
+  MASTODON_INSTANCE_URL,
 }
