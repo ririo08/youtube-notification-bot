@@ -20,7 +20,7 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
       'Content-Type': 'application/json',
     },
   }).catch((e) => {
-    logError('ライブ情報取得', e)
+    logError('最新動画取得', e)
   })
 
   if (typeof youtubeDataResFetch === 'undefined')
