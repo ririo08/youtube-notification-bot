@@ -1,12 +1,11 @@
 import * as fs from 'fs-extra'
-import { format } from 'date-fns'
 import * as cron from 'node-cron'
-import { green } from 'console-log-colors'
+import consola from 'consola'
 import { YOUTUBE_API_KEY, YOUTUBE_PLAYLIST_ID } from './setting'
 import { runBot } from './src/bot'
 
 async function main() {
-  console.log(green(`Starting YouTube Notification Bot...`))
+  consola.info(`Starting YouTube Notification Bot...`)
 
   // 初回ロード
   const firstLoadYouTubeURL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${YOUTUBE_PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
@@ -22,6 +21,7 @@ async function main() {
   }
 
   const resJson: any = await res.json()
+  consola.success('最新動画: ', resJson.items[0].snippet.title)
 
   // 初回の動画IDリスト生成
   const ary: string[] = []
@@ -32,7 +32,12 @@ async function main() {
 
   // タスクスケジュール設定
   cron.schedule('5,35 * * * * *', () => {
-    runBot()
+    try {
+      runBot()
+    }
+    catch (e) {
+      consola.error(e)
+    }
   })
 }
 
@@ -42,8 +47,9 @@ async function TryConnect() {
     await main()
   }
   catch (e) {
-    console.error('TryConnect:', format(new Date(), 'yyyy-MM-dd HH:mm:ss'), e)
+    consola.error('tryConnect:', e)
     setTimeout(() => {
+      consola.info('Retry connect...')
       TryConnect()
     }, 1000 * 60)
   }

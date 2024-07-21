@@ -1,6 +1,5 @@
 import * as fs from 'fs-extra'
 import { YOUTUBE_API_KEY, YOUTUBE_PLAYLIST_ID } from '../setting'
-import { logError } from './utils/log-error'
 
 interface YouTubeResponse {
   title: string
@@ -19,15 +18,15 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).catch((e) => {
-    logError('最新動画取得', e)
+  }).catch(() => {
+    throw new Error('最新動画取得失敗')
   })
 
   if (typeof youtubeDataResFetch === 'undefined')
-    return
+    return undefined
+
   if (youtubeDataResFetch.status !== 200) {
-    logError('最新動画取得 ログ取得エラー', youtubeDataResFetch.status)
-    return
+    throw new Error(`最新動画取得 ステータスエラー: ${youtubeDataResFetch.status}`)
   }
 
   const youtubeDataRes: any = await youtubeDataResFetch.json()
@@ -37,15 +36,14 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoID}&key=${YOUTUBE_API_KEY}`,
     { method: 'GET', headers: { 'Content-Type': 'application/json' } },
-  ).catch((e) => {
-    logError('ライブ情報取得', e)
+  ).catch(() => {
+    throw new Error('ライブ情報取得失敗')
   })
 
   if (typeof res === 'undefined')
-    return
+    return undefined
   if (res.status !== 200) {
-    logError('ライブ情報取得 ログ取得エラー', res.status)
-    return
+    throw new Error(`ライブ情報取得 ステータスエラー: ${res.status}`)
   }
 
   const resJson: any = await res.json()
@@ -58,10 +56,10 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
   for (const item of latestMovieIDList) {
     // 既に取得済みかどうか
     if (videoID === item)
-      return
+      return undefined
     // 配信の場合開始していないかどうか
     if (liveStreamType === 'upcoming')
-      return
+      return undefined
   }
 
   // 取得ログ更新

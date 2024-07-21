@@ -2,7 +2,6 @@ import {
   DISCORD_WEBHOOK_URL_LIVE,
   DISCORD_WEBHOOK_URL_MOVIE,
 } from '../setting'
-import { logError } from './utils/log-error'
 
 interface DiscordWebhookRequest {
   isLiveStream: boolean
@@ -20,8 +19,8 @@ export async function sendDiscordWebhook(request: DiscordWebhookRequest) {
       method: 'POST',
       body: JSON.stringify(req),
       headers: { 'Content-Type': 'application/json' },
-    }).catch((e) => {
-      logError('チャット送信', e)
+    }).catch(() => {
+      throw new Error('チャット送信失敗')
     })
   }
   else {
@@ -32,8 +31,8 @@ export async function sendDiscordWebhook(request: DiscordWebhookRequest) {
       method: 'POST',
       body: JSON.stringify(req),
       headers: { 'Content-Type': 'application/json' },
-    }).catch((e) => {
-      logError('チャット送信', e)
+    }).catch(() => {
+      throw new Error('チャット送信失敗')
     })
   }
 }

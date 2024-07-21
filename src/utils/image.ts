@@ -1,6 +1,7 @@
 import { createWriteStream, promises, unlink } from 'node:fs'
 import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
+import consola from 'consola'
 
 const streamPipeline = promisify(pipeline)
 const unlinkAsync = promisify(unlink)
@@ -9,20 +10,20 @@ const unlinkAsync = promisify(unlink)
 export async function downloadImage(url: string, path: string): Promise<void> {
   const response = await fetch(url)
   if (!response.ok)
-    throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
+    throw new Error(`画像取得失敗: ${url}: ${response.statusText}`)
 
   await streamPipeline(response.body as unknown as NodeJS.ReadableStream, createWriteStream(path))
-  console.log(`Image downloaded to ${path}`)
+  consola.success(`画像保存成功: ${path}`)
 }
 
 /** ファイル削除 */
 export async function deleteFile(path: string): Promise<void> {
   try {
     await unlinkAsync(path)
-    console.log(`File at ${path} deleted`)
+    consola.success(`画像削除成功: ${path}`)
   }
   catch (error) {
-    console.error(`Failed to delete file at ${path}`, error)
+    consola.error(`画像削除失敗: ${path}`, error)
   }
 }
 
@@ -34,7 +35,7 @@ export async function jpgToBlob(filePath: string): Promise<Blob> {
     return blob as Blob
   }
   catch (error) {
-    console.error('Failed to convert jpg to Blob:', error)
+    consola.error('Failed to convert jpg to Blob:', error)
     throw error
   }
 }

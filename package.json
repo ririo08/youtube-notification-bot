@@ -6,7 +6,7 @@
   "repository": "https://github.com/ririo08/discord-youtube-notification-bot",
   "main": "main.ts",
   "scripts": {
-    "start": "bun bot.ts",
+    "start": "bun main.ts",
     "lint": "eslint . --cache",
     "lint:fix": "bun lint --fix"
   },
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@atproto/api": "^0.12.18",
-    "console-log-colors": "^0.5.0",
+    "consola": "^3.2.3",
     "date-fns": "^2.30.0",
     "fs-extra": "^10.1.0",
     "masto": "^6.8.0",
