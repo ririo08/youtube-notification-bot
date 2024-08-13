@@ -6,62 +6,64 @@ import { postPhotoToMastodon } from './mastodon'
 import { tweet } from './twitter'
 import { deleteFile, downloadImage, jpgToBlob } from './utils/image'
 import { getNewVideo } from './youtube'
+import { checkNicoNicoNewUpdates } from './niconico'
 
-export async function runBot() {
+export async function runBot(target: 'youtube' | 'niconico') {
   try {
-    const youTubeResponse = await getNewVideo()
+    // 最新情報取得
+    const res = target === 'youtube' ? await getNewVideo() : await checkNicoNicoNewUpdates()
 
-    if (!youTubeResponse)
+    if (!res)
       return undefined
 
-    consola.success('新動画取得: ', youTubeResponse.title)
+    consola.success('新動画取得: ', res.title)
 
     // 画像取得
     const imagePath = './tmp-image.jpg'
-    await downloadImage(youTubeResponse.thumbnailUrl, imagePath)
+    await downloadImage(res.thumbnailUrl, imagePath)
     const blob = await jpgToBlob(imagePath)
 
     // Discord投稿
     if (CONFIG.discord) {
       try {
-        await sendDiscordWebhook(youTubeResponse)
-        consola.success('Discord投稿完了: ', youTubeResponse.title)
+        await sendDiscordWebhook(res)
+        consola.success('Discord投稿完了: ', res.title)
       }
       catch (e) {
-        consola.error('Discord投稿失敗: ', youTubeResponse.title, e)
+        consola.error('Discord投稿失敗: ', res.title, e)
       }
     }
 
     // Bluesky投稿
     if (CONFIG.bluesky) {
       try {
-        await postPhotoToBluesky({ ...youTubeResponse, blob })
-        consola.success('Bluesky投稿完了: ', youTubeResponse.title)
+        await postPhotoToBluesky({ ...res, blob })
+        consola.success('Bluesky投稿完了: ', res.title)
       }
       catch (e) {
-        consola.error('Bluesky投稿失敗: ', youTubeResponse.title, e)
+        consola.error('Bluesky投稿失敗: ', res.title, e)
       }
     }
 
     // Twitter投稿
     if (CONFIG.twitter) {
       try {
-        await tweet(youTubeResponse)
-        consola.success('Twitter投稿完了: ', youTubeResponse.title)
+        await tweet({ ...res, image: imagePath })
+        consola.success('Twitter投稿完了: ', res.title)
       }
       catch (e) {
-        consola.error('Twitter投稿失敗: ', youTubeResponse.title, e)
+        consola.error('Twitter投稿失敗: ', res.title, e)
       }
     }
 
     // Mastodon投稿
     if (CONFIG.mastodon) {
       try {
-        await postPhotoToMastodon({ ...youTubeResponse, blob })
-        consola.success('Mastodon投稿完了: ', youTubeResponse.title)
+        await postPhotoToMastodon({ ...res, blob })
+        consola.success('Mastodon投稿完了: ', res.title)
       }
       catch (e) {
-        consola.error('Mastodon投稿失敗: ', youTubeResponse.title, e)
+        consola.error('Mastodon投稿失敗: ', res.title, e)
       }
     }
 

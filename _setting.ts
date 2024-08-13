@@ -1,5 +1,6 @@
 /** 設定 trueにすると動きます。動かす場合は各種キーが必要です。 */
 const CONFIG = {
+  niconico: true,
   discord: true,
   bluesky: true,
   twitter: true,
@@ -13,9 +14,11 @@ const CONFIG = {
 
 /** YouTube API Key */
 const YOUTUBE_API_KEY = ''
-
 /** 対象チャンネルの全ての動画の再生リストID */
 const YOUTUBE_PLAYLIST_ID = ''
+
+/** ニコニコのユーザーID */
+const NICONICO_USER_ID = ''
 
 // 以下DiscordのURLは、同じチャンネルを使う場合は同じURLを指定してください
 
@@ -26,18 +29,18 @@ const DISCORD_WEBHOOK_URL_LIVE = ''
 
 /** AT ProtocolのURL（デフォはこのままでOK） */
 const BLUESKY_BASE_URL = 'https://bsky.social'
-
 /** 投稿するアカウントのID (ex: ririo08.bsky.social) */
 const BLUESKY_USER_ID = ''
-
 /** BlueskyのApp Password */
 const BLUESKY_APP_PASSWORD = ''
 
+// ツイッターの各種キー
 const TWITTER_API_KEY = ''
 const TWITTER_API_KEY_SECRET = ''
 const TWITTER_ACCESS_TOKEN = ''
 const TWITTER_ACCESS_TOKEN_SECRET = ''
 
+// マストドンの各種キー
 const MASTODON_ACCESS_TOKEN = ''
 const MASTODON_INSTANCE_URL = 'https://mstdn.jp'
 // ------------------------------------------------------------
@@ -47,6 +50,7 @@ export {
   CONFIG,
   YOUTUBE_API_KEY,
   YOUTUBE_PLAYLIST_ID,
+  NICONICO_USER_ID,
   DISCORD_WEBHOOK_URL_MOVIE,
   DISCORD_WEBHOOK_URL_LIVE,
   BLUESKY_BASE_URL,

@@ -5,6 +5,7 @@ interface TweetRequest {
   title: string
   url: string
   isLiveStream: boolean
+  image?: string
 }
 
 export async function tweet(request: TweetRequest) {
@@ -17,9 +18,11 @@ export async function tweet(request: TweetRequest) {
 
   const rwClient = twitterClient.readWrite
 
+  const mediaId = request.image ? await rwClient.v1.uploadMedia(request.image) : undefined
+
   // 投稿文の作成
   const prefix = request.isLiveStream ? '🔔配信開始' : '🎬動画投稿'
   const text = `${prefix}\n\n${request.title}\n${request.url}`
 
-  await rwClient.v2.tweet(text, {})
+  await rwClient.v2.tweet(text, { media: { media_ids: mediaId ? [mediaId] : undefined } })
 }

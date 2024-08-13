@@ -51,7 +51,7 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
   // 新コンテンツチェック
   type LiveStreamType = 'live' | 'upcoming' | 'none'
   const liveStreamType: LiveStreamType = resJson.items[0].snippet.liveBroadcastContent
-  const latestMovieIDList = fs.readFileSync('movie-id', 'utf-8').split(',')
+  const latestMovieIDList = fs.readFileSync('_temp/youtube', 'utf-8').split(',')
 
   for (const item of latestMovieIDList) {
     // 既に取得済みかどうか
@@ -67,7 +67,7 @@ export async function getNewVideo(): Promise<YouTubeResponse | undefined> {
   for (let i = 0; i < 5; i++) {
     ary.push(youtubeDataRes.items[i].snippet.resourceId.videoId)
   }
-  fs.writeFileSync('movie-id', ary.join(','))
+  fs.writeFileSync('_temp/youtube', ary.join(','))
 
   return {
     title: resJson.items[0].snippet.title,
