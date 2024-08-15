@@ -20,8 +20,18 @@ export async function runBot(target: 'youtube' | 'niconico') {
 
     // 画像取得
     const imagePath = './tmp-image.jpg'
-    await downloadImage(res.thumbnailUrl, imagePath)
-    const blob = await jpgToBlob(imagePath)
+    const noImagePath = './no_image.jpg'
+    let blob: Blob
+    let isFailedGetImage = false
+
+    try {
+      await downloadImage(res.thumbnailUrl, imagePath)
+      blob = await jpgToBlob(imagePath)
+    }
+    catch {
+      blob = await jpgToBlob('./no_image.jpg')
+      isFailedGetImage = true
+    }
 
     // Discord投稿
     if (CONFIG.discord) {
@@ -48,7 +58,7 @@ export async function runBot(target: 'youtube' | 'niconico') {
     // Twitter投稿
     if (CONFIG.twitter) {
       try {
-        await tweet({ ...res, image: imagePath })
+        await tweet({ ...res, image: isFailedGetImage ? noImagePath : imagePath })
         consola.success('Twitter投稿完了: ', res.title)
       }
       catch (e) {

@@ -9,7 +9,7 @@ const unlinkAsync = promisify(unlink)
 /** 画像ダウンロード */
 export async function downloadImage(url: string, path: string): Promise<void> {
   const response = await fetch(url)
-  if (!response.ok)
+  if (!response.ok || response.status !== 200)
     throw new Error(`画像取得失敗: ${url}: ${response.statusText}`)
 
   await streamPipeline(response.body as unknown as NodeJS.ReadableStream, createWriteStream(path))
