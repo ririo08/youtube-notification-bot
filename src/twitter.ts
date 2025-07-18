@@ -21,8 +21,13 @@ export async function tweet(request: TweetRequest) {
   const mediaId = await rwClient.v1.uploadMedia(request.image)
 
   // 投稿文の作成
-  const prefix = request.isLiveStream ? '🔔配信開始' : '動画投稿▼'
-  const text = `${prefix}\n\n${request.title}\n${request.url}`
+  const prefix = request.isLiveStream ? '🔔配信開始' : '🎬動画投稿'
 
-  await rwClient.v2.tweet(text, { media: { media_ids: [mediaId] } })
+  // 画像付きのタイトルだけを最初にツイート
+  const firstTweetText = `${prefix}\n\n${request.title}`
+  const tweetRes = await rwClient.v2.tweet(firstTweetText, { media: { media_ids: [mediaId] } })
+
+  // そのツイートへのリプライで動画URLを送信
+  const replyText = `動画はこちら！\n${request.url}`
+  await rwClient.v2.reply(replyText, tweetRes.data.id)
 }
