@@ -31,7 +31,8 @@ export async function deleteFile(path: string): Promise<void> {
 export async function jpgToBlob(filePath: string): Promise<Blob> {
   try {
     const fileData = await promises.readFile(filePath)
-    const blob = new Blob([fileData], { type: 'image/jpeg' })
+    const arrayBuffer = fileData.buffer.slice(fileData.byteOffset, fileData.byteOffset + fileData.byteLength) as ArrayBuffer
+    const blob = new Blob([arrayBuffer], { type: 'image/jpeg' })
     return blob as Blob
   }
   catch (error) {
