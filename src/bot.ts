@@ -12,11 +12,12 @@ export async function runBot(target: 'youtube' | 'niconico') {
   try {
     // 最新情報取得
     const res = target === 'youtube' ? await getNewVideo() : await checkNicoNicoNewUpdates()
+    const key = new Date().getTime()
 
     if (!res)
       return undefined
 
-    consola.success('新動画取得: ', res.title)
+    consola.success(`[${key}]`, '新動画取得: ', res.title)
 
     // 画像取得
     const imagePath = './tmp-image.jpg'
@@ -37,10 +38,10 @@ export async function runBot(target: 'youtube' | 'niconico') {
     if (CONFIG.discord) {
       try {
         await sendDiscordWebhook(res)
-        consola.success('Discord投稿完了: ', res.title)
+        consola.success(`[${key}]`, 'Discord投稿完了')
       }
       catch (e) {
-        consola.error('Discord投稿失敗: ', res.title, e)
+        consola.error(`[${key}]`, 'Discord投稿失敗', e)
       }
     }
 
@@ -48,10 +49,10 @@ export async function runBot(target: 'youtube' | 'niconico') {
     if (CONFIG.bluesky) {
       try {
         await postPhotoToBluesky({ ...res, blob })
-        consola.success('Bluesky投稿完了: ', res.title)
+        consola.success(`[${key}]`, 'Bluesky投稿完了')
       }
       catch (e) {
-        consola.error('Bluesky投稿失敗: ', res.title, e)
+        consola.error(`[${key}]`, 'Bluesky投稿失敗', e)
       }
     }
 
@@ -59,10 +60,10 @@ export async function runBot(target: 'youtube' | 'niconico') {
     if (CONFIG.twitter) {
       try {
         await tweet({ ...res, image: isFailedGetImage ? noImagePath : imagePath })
-        consola.success('Twitter投稿完了: ', res.title)
+        consola.success(`[${key}]`, 'Twitter投稿完了')
       }
       catch (e) {
-        consola.error('Twitter投稿失敗: ', res.title, e)
+        consola.error(`[${key}]`, 'Twitter投稿失敗', e)
       }
     }
 
@@ -70,10 +71,10 @@ export async function runBot(target: 'youtube' | 'niconico') {
     if (CONFIG.mastodon) {
       try {
         await postPhotoToMastodon({ ...res, blob })
-        consola.success('Mastodon投稿完了: ', res.title)
+        consola.success(`[${key}]`, 'Mastodon投稿完了')
       }
       catch (e) {
-        consola.error('Mastodon投稿失敗: ', res.title, e)
+        consola.error(`[${key}]`, 'Mastodon投稿失敗', e)
       }
     }
 
