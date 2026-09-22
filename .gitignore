@@ -3,3 +3,4 @@ setting.*
 _temp/
 .eslintcache
 tmp-image.jpg
+logs/

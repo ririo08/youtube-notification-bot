@@ -5,7 +5,10 @@ import { ofetch } from 'ofetch'
 import packageJson from './package.json' with { type: 'json' }
 import { CONFIG, YOUTUBE_API_KEY, YOUTUBE_PLAYLIST_ID } from './setting'
 import { runBot } from './src/bot'
+import { setupFileLogging } from './src/logger'
 import { getNicoNicoStream, getNicoNicoVideo, setNicoStreamIds, setNicoVideoIds } from './src/niconico'
+
+setupFileLogging()
 
 async function main() {
   consola.info(`Starting Video Upload Notification Bot v${packageJson.version}...`)
